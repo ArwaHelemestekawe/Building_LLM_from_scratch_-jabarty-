@@ -20,6 +20,25 @@ eval_splits={"phase1_eval","phase2_eval"}
 
 out_dir=Path(__file__).parent/"output"
 
+
+def demo_normalizer():
+    print("TYPE B NORMALIZER (embeddable, runs at inference too)")
+
+    samples = [
+        "الجُمْهُورِيَّةُ الْجَزَائِرِيَّةُ",  # heavy diacritics
+        "أحمد إبراهيم آدم علي",                # alef + ya variants
+        "The   United   States",               # extra spaces
+    ]
+    for s in samples:
+        text=normalize_text(s)
+        print(f"raw text {s}")
+        print(f"after normalizing {text}")
+        print("="*30)
+        
+
+
+
+
 def download_and_filter():
     out_dir.mkdir(parents=True,exist_ok=True)
     for name, file in HF_FILES.items():
@@ -65,6 +84,7 @@ def clean_phase(phase,input_path,output_path):
 
 
 def main():
+    demo_normalizer()
     download_and_filter()
     for name in train_splits:
         input_path=out_dir / f"{name}_filtered_version"
